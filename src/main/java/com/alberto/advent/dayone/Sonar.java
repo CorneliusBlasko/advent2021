@@ -8,9 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Counter{
+public class Sonar{
 
-    public Long measure(List<Long> measurements){
+    public Long sweep(List<Long> measurements){
         long larger = 0L;
 
         for(int i = 1; i < measurements.size(); i++) {
@@ -36,11 +36,8 @@ public class Counter{
         return windows;
     }
 
-    public List<Long> createMeasurements() throws IOException{
-        Path fileName = Path.of("src/main/resources/001.txt");
-        String content = Files.readString(fileName);
-        String[] stringArray = content.split("\\r?\\n");
-        List<String> stringList = Arrays.asList(stringArray);
-        return stringList.stream().map(Long::valueOf).collect(Collectors.toList());
+    public List<Long> retrieveMeasurements() throws IOException{
+        List<String> content = Files.readAllLines(Path.of("src/main/resources/measurements.txt"));
+        return content.stream().map(Long::valueOf).collect(Collectors.toList());
     }
 }
