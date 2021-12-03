@@ -7,8 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Instruction{
+public class Movement{
 
     private String direction;
-    private long amount;
+    private long magnitude;
 }

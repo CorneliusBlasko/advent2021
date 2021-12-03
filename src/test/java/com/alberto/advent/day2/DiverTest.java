@@ -1,25 +1,43 @@
 package com.alberto.advent.day2;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 
 public class DiverTest{
 
-    private final Diver diver = new Diver();
+    private Diver diver;
 
-    @Test
-    public void test_00() throws IOException{
-        Assertions.assertEquals(1698735, this.diver.findFinalPosition());
+    @BeforeEach
+    public void setUp() throws IOException{
+        this.diver = new Diver();
+    }
+
+    @AfterEach
+    public void clean() {
+        this.diver = null;
     }
 
     @Test
-    public void test_01() throws IOException{
-        Assertions.assertEquals(1594785890, this.diver.findFinalPositionWithAim());
+    @DisplayName("Sanity test")
+    public void test_00() {
+        Assertions.assertNotNull(this.diver);
     }
 
     @Test
+    @DisplayName("Checks the final position value without aim")
+    public void test_01(){
+        Assertions.assertEquals(1698735, this.diver.getFinalPosition());
+    }
+
+    @Test
+    @DisplayName("Checks the final position value with aim")
+    public void test_02(){
+        Assertions.assertEquals(1594785890, this.diver.getFinalPositionAimed());
+    }
+
+    @Test
+    @DisplayName("Checks the correct parsing of the file")
     public void test_03() throws IOException{
         Assertions.assertEquals(1000, this.diver.retrieveMovements().size());
     }
