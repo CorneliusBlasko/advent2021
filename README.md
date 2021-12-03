@@ -5,3 +5,5 @@ Advent of Code is an Advent calendar of small programming puzzles for a variety 
 ### Days
 
 1. SonarSweep
+2. Diver
+3. LifeSupport, Diagnostic
