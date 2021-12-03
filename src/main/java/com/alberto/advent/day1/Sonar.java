@@ -79,7 +79,7 @@ public class Sonar {
    * @throws IOException An Exception while parsing the file
    */
   public List<Long> retrieveMeasurements() throws IOException {
-    List<String> content = Files.readAllLines(Path.of("src/main/resources/measurements.txt"));
+    List<String> content = Files.readAllLines(Path.of("src/main/resources/files/measurements.txt"));
     return content.stream().map(Long::valueOf).collect(Collectors.toList());
   }
 }

@@ -86,7 +86,7 @@ public class Diver {
    * @throws IOException An Exception while parsing the file
    */
   public List<Movement> retrieveMovements() throws IOException {
-    List<String> content = Files.readAllLines(Path.of("src/main/resources/movements.txt"));
+    List<String> content = Files.readAllLines(Path.of("src/main/resources/files/movements.txt"));
     List<Movement> instructions = new ArrayList<>();
 
     for (String line : content) {
