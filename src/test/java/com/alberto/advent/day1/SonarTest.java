@@ -1,4 +1,4 @@
-package com.alberto.advent.dayone;
+package com.alberto.advent.day1;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
