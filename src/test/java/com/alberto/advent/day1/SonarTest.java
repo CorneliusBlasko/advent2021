@@ -41,7 +41,8 @@ public class SonarTest {
   }
 
   @Test
-  @DisplayName("Check the number of measurements that are higher than the previous in sliding window form")
+  @DisplayName("Check the number of measurements that are higher than the previous in sliding "
+      + "window form")
   public void test_02() throws IOException {
     Assertions.assertEquals(1748, sonar.getMeasurementsWithSlidingWindow());
   }
