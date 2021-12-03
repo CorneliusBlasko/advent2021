@@ -16,7 +16,7 @@ public class DayThreeUtils {
    */
   public static List<String> getNumbers() {
     try {
-      return Files.readAllLines(Path.of("src/main/resources/bits.txt"));
+      return Files.readAllLines(Path.of("src/main/resources/files/bits.txt"));
     } catch (Exception e) {
       e.printStackTrace();
     }
