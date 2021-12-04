@@ -30,7 +30,7 @@ public class BingoTest {
   @DisplayName("Parsing test")
   public void test_01(){
     Assertions.assertEquals(100, this.bingo.getBingoNumbers().size());
-    Assertions.assertEquals(598, this.bingo.generateBoards().size());
+    Assertions.assertEquals(100, this.bingo.generateBoards().size());
   }
 
 
