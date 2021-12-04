@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Bingo {
@@ -23,45 +22,51 @@ public class Bingo {
   }
 
   public List<Board> generateBoards() {
-    try{
-      List<String> allRows = Files.readAllLines(Path.of("src/main/resources/files/bingo_boards.txt"));
-//      System.out.println(allRows);
-//      allRows.forEach(System.out::println);
+    try {
+      List<String> allRows =
+          Files.readAllLines(Path.of("src/main/resources/files/bingo_boards.txt"));
 
-      //Creo una board
+      //Boards creation
       Board newBoard = new Board();
       List<Board> boards = new ArrayList<>();
 
-      //Leo las filas
-      for (String row: allRows) {
-        //Tiene numeros? Es una fila. La inserto en la board
-        if(!row.isEmpty()){
-          //Add a new row, splitting it by empty spaces
+      for (String row : allRows) {
+        //Does the row have numbers? Then it's a valid row and it must be inserted
+        if (!row.isEmpty()) {
+          //Add a new row, splitting it by one or more empty spaces
           String[] splitStr = row.split("\\s+");
           newBoard.addRow(Arrays.asList(splitStr));
-          //Añado los números
+          //Add the numbers
           newBoard.addNumbers(Arrays.asList(splitStr));
-          //Si es la ultima linea, como despues no hay una linea vacia, se mete la board igualmente
-          if(!row.equals(allRows.get(allRows.size()-1))) {
+          //If this is the last line, since there's no empty space after it we must put it in the
+          // board list too
+          if (!row.equals(allRows.get(allRows.size() - 1))) {
             boards.add(newBoard);
           }
-        } else { //No los tiene? Empiezo otra board
+        } else { //If the new row does not have any number it means we've reached the last row of
+          // the board
           boards.add(newBoard);
           newBoard = new Board();
         }
       }
 
       //Add the columns
-
-//      for (Board board: boards) {
-//        for (String row : board.getRows()) {
-//
-//        }
-//      }
+      for (Board board : boards) {
+        List<List<String>> columns = new ArrayList<>();
+        List<String> column = new ArrayList<>();
+        //All the rows in the board
+        for(int i = 0; i <= 4; i++){
+          for (List<String> row : board.getRows()) {
+            //For each row, insert the "i" index in the row
+            column.add(row.get(i));
+          }
+          columns.add(column);
+          column = new ArrayList<>();
+        }
+        board.setColumns(columns);
+      }
 
       return boards;
-
-
 
 
     } catch (Exception e) {
@@ -69,6 +74,6 @@ public class Bingo {
       return null;
     }
 
-//    return null;
+    //    return null;
   }
 }

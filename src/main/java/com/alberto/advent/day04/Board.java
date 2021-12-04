@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Board {
 
   private List<List<String>> rows;
-  private List<String> columns;
+  private List<List<String>> columns;
   private List<String> numbers;
 
   public Board() {
@@ -26,4 +26,5 @@ public class Board {
   public void addNumbers(List<String> list) {
     this.numbers.addAll(list);
   }
+
 }
