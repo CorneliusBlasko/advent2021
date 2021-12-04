@@ -1,4 +1,4 @@
-package com.alberto.advent.day3;
+package com.alberto.advent.day03;
 
 import com.alberto.advent.utils.DayThreeUtils;
 import java.util.ArrayList;

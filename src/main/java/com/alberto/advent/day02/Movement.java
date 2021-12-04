@@ -1,4 +1,4 @@
-package com.alberto.advent.day2;
+package com.alberto.advent.day02;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

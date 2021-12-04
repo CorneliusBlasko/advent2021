@@ -1,4 +1,4 @@
-package com.alberto.advent.day1;
+package com.alberto.advent.day01;
 
 import java.io.IOException;
 import java.util.ArrayList;
