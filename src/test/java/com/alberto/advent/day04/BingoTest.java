@@ -29,17 +29,24 @@ public class BingoTest {
   }
 
   @Test
-  @DisplayName("Parsing test")
+  @DisplayName("Parsing test data")
   public void test_01() {
-    Assertions.assertEquals(100, Objects.requireNonNull(DayFourUtils.getBingoNumbers()).size());
-    Assertions.assertEquals(100, Objects.requireNonNull(DayFourUtils.generateBoards()).size());
+    Assertions.assertEquals(27, Objects.requireNonNull(DayFourUtils.getBingoNumbers(true)).size());
+    Assertions.assertEquals(3, Objects.requireNonNull(DayFourUtils.generateBoards(true)).size());
+  }
+
+  @Test
+  @DisplayName("Parsing true data")
+  public void test_02() {
+    Assertions.assertEquals(100, Objects.requireNonNull(DayFourUtils.getBingoNumbers(false)).size());
+    Assertions.assertEquals(100, Objects.requireNonNull(DayFourUtils.generateBoards(false)).size());
   }
 
   @Test
   @DisplayName("Starts the game")
-  public void test_02() {
-//    Assertions.assertEquals(14716, this.bingo.draw());
-    this.bingo.start();
+  public void test_03() {
+    Assertions.assertEquals(4512, this.bingo.draw(true));
+    Assertions.assertEquals(64084, this.bingo.draw(false));
   }
 
 

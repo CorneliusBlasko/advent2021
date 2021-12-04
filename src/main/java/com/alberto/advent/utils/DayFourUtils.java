@@ -14,10 +14,12 @@ public class DayFourUtils {
    *
    * @return The list containing all the bingo numbers
    */
-  public static List<String> getBingoNumbers() {
+  public static List<String> getBingoNumbers(boolean isTest) {
+    final String path = isTest
+        ? "bingo_numbers_2.txt"
+        : "bingo_numbers.txt";
     try {
-      String listOfNumbers = Files.readString(Path.of("src/main/resources/files"
-          + "/bingo_numbers.txt"));
+      String listOfNumbers = Files.readString(Path.of("src/main/resources/files/" + path));
       return Arrays.asList(listOfNumbers.split(","));
     } catch (Exception e) {
       e.printStackTrace();
@@ -30,10 +32,14 @@ public class DayFourUtils {
    *
    * @return A list of Boards
    */
-  public static List<Board> generateBoards() {
+  public static List<Board> generateBoards(boolean isTest) {
+    final String path = isTest
+        ? "bingo_boards_2.txt"
+        : "bingo_boards.txt";
     try {
       List<String> allRows =
-          Files.readAllLines(Path.of("src/main/resources/files/bingo_boards.txt"));
+          //Files.readAllLines(Path.of("src/main/resources/files/bingo_boards_2.txt"));
+          Files.readAllLines(Path.of("src/main/resources/files/" + path));
       // Adding an empty line at the end to allow the creation of the last board since the criteria
       // for adding a new board is that the next line after the last is empty
       allRows.add("");
@@ -43,10 +49,11 @@ public class DayFourUtils {
       List<Board> boards = new ArrayList<>();
 
       for (String row : allRows) {
+        String trimmedString = row.trim();
         //Does the row have numbers? Then it's a valid row, and it must be inserted
-        if (!row.isEmpty()) {
+        if (!trimmedString.isEmpty()) {
           //Add a new row, splitting it by one or more empty spaces
-          String[] splitStr = row.split("\\s+");
+          String[] splitStr = trimmedString.split("\\s+");
           List<String> stringRow = createMutableList(Arrays.asList(splitStr));
           newBoard.addRow(stringRow);
           //Add the numbers
@@ -84,7 +91,6 @@ public class DayFourUtils {
     }
   }
 
-
   /**
    * Turns an immutable list into a mutable one.
    *
@@ -92,7 +98,6 @@ public class DayFourUtils {
    * @return The mutable list
    */
   private static List<String> createMutableList(List<String> oldList) {
-
     return new ArrayList<>(oldList);
   }
 

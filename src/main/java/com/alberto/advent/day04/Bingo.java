@@ -9,8 +9,8 @@ public class Bingo {
   /**
    * Starts the game.
    */
-  public void start() {
-    long number = draw();
+  public void start(boolean isTest) {
+    long number = draw(isTest);
     System.out.println("The winning number is: " + number);
   }
 
@@ -19,9 +19,9 @@ public class Bingo {
    *
    * @return The winning number
    */
-  public long draw() {
-    List<Board> boards = DayFourUtils.generateBoards();
-    List<String> numbers = DayFourUtils.getBingoNumbers();
+  public long draw(boolean isTest) {
+    List<Board> boards = DayFourUtils.generateBoards(isTest);
+    List<String> numbers = DayFourUtils.getBingoNumbers(isTest);
 
     //Vamos sacando números
     assert numbers != null;
@@ -31,8 +31,8 @@ public class Bingo {
       for (Board board : boards) {
         //Si el número está en una fila se quita de ahí y de la lista de números
         for (int i = 0; i <= 4; i++) {
-          //board.getRows().get(i).remove(number);
-          board.getRows().get(i).set(i, "X");
+          board.getRows().get(i).remove(number);
+          board.getColumns().get(i).remove(number);
           board.getNumbers().remove(number);
           //Se comprueba que no haya ninguna fila vacía. Si la hay, hemos ganado
           if (amIEmpty(board.getRows()) || amIEmpty(board.getColumns())) {
@@ -50,7 +50,7 @@ public class Bingo {
 
   private boolean amIEmpty(List<List<String>> rows) {
     for (List<String> row : rows) {
-      if (row.stream().allMatch(n -> n.equals("X"))) {
+      if (row.isEmpty()) {
         return true;
       }
     }
