@@ -16,13 +16,11 @@ public class Bingo {
     try {
       String listOfNumbers = Files.readString(Path.of("src/main/resources/files" +
           "/bingo_numbers.txt"));
-      String[] values = listOfNumbers.split(",");
-      return Arrays.asList(values);
+      return Arrays.asList(listOfNumbers.split(","));
     } catch (Exception e) {
       e.printStackTrace();
+      return null;
     }
-
-    return null;
   }
 
   /**
