@@ -33,5 +33,12 @@ public class BingoTest {
     Assertions.assertEquals(100, this.bingo.generateBoards().size());
   }
 
+  @Test
+  @DisplayName("Starts the game")
+  public void test_02(){
+//    Assertions.assertEquals(14716, this.bingo.draw());
+    this.bingo.start();
+  }
+
 
 }

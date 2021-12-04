@@ -13,6 +13,9 @@ public class Board {
   private List<List<String>> columns;
   private List<String> numbers;
 
+  /**
+   *
+   */
   public Board() {
     this.rows = new ArrayList<>();
     this.columns = new ArrayList<>();
