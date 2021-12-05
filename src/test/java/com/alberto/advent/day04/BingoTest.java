@@ -45,8 +45,16 @@ public class BingoTest {
   @Test
   @DisplayName("Starts the game")
   public void test_03() {
-    Assertions.assertEquals(4512, this.bingo.draw(true));
-    Assertions.assertEquals(64084, this.bingo.draw(false));
+    Assertions.assertEquals(4512, this.bingo.firstCardWins(true));
+    Assertions.assertEquals(64084, this.bingo.firstCardWins(false));
+  }
+
+  @Test
+  @DisplayName("Starts the game")
+  public void test_04() {
+//    Assertions.assertEquals(1924, this.bingo.lastCardWins(true));
+//    Assertions.assertEquals(11564, this.bingo.lastCardWins(false));
+    this.bingo.lastCardWins(false);
   }
 
 

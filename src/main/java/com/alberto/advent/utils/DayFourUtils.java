@@ -1,6 +1,6 @@
 package com.alberto.advent.utils;
 
-import com.alberto.advent.day04.Board;
+import com.alberto.advent.day04.Card;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class DayFourUtils {
    *
    * @return A list of Boards
    */
-  public static List<Board> generateBoards(boolean isTest) {
+  public static List<Card> generateBoards(boolean isTest) {
     final String path = isTest
         ? "bingo_boards_2.txt"
         : "bingo_boards.txt";
@@ -45,8 +45,8 @@ public class DayFourUtils {
       allRows.add("");
 
       //Boards creation
-      Board newBoard = new Board();
-      List<Board> boards = new ArrayList<>();
+      Card newCard = new Card();
+      List<Card> cards = new ArrayList<>();
 
       for (String row : allRows) {
         String trimmedString = row.trim();
@@ -55,35 +55,35 @@ public class DayFourUtils {
           //Add a new row, splitting it by one or more empty spaces
           String[] splitStr = trimmedString.split("\\s+");
           List<String> stringRow = createMutableList(Arrays.asList(splitStr));
-          newBoard.addRow(stringRow);
+          newCard.addRow(stringRow);
           //Add the numbers
-          newBoard.addNumbers(stringRow);
+          newCard.addNumbers(stringRow);
           //If this is the last line, since there's no empty space after it, we must put it in the
           // board list too
         } else { //If the new row does not have any number it means we've reached the last row of
           // the board
-          boards.add(newBoard);
-          newBoard = new Board();
+          cards.add(newCard);
+          newCard = new Card();
         }
       }
 
       //Add the columns
-      for (Board board : boards) {
+      for (Card card : cards) {
         List<List<String>> columns = new ArrayList<>();
         List<String> column = new ArrayList<>();
         //All the rows in the board
         for (int i = 0; i <= 4; i++) {
-          for (List<String> row : board.getRows()) {
+          for (List<String> row : card.getRows()) {
             //For each row, insert the "i" index in the row
             column.add(row.get(i));
           }
           columns.add(column);
           column = new ArrayList<>();
         }
-        board.setColumns(columns);
+        card.setColumns(columns);
       }
 
-      return boards;
+      return cards;
 
     } catch (Exception e) {
       e.printStackTrace();

@@ -7,16 +7,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Board {
+public class Card {
 
   private List<List<String>> rows;
   private List<List<String>> columns;
   private List<String> numbers;
 
   /**
-   *
+   * Constructor for the class.
    */
-  public Board() {
+  public Card() {
     this.rows = new ArrayList<>();
     this.columns = new ArrayList<>();
     this.numbers = new ArrayList<>();
