@@ -6,9 +6,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class DayFourUtils {
+
+  private static final String TEST = "_test";
 
   /**
    * Stores all the bingo ball numbers in a list.
@@ -17,10 +18,11 @@ public class DayFourUtils {
    */
   public static List<String> getBingoNumbers(boolean isTest) {
     final String path = isTest
-        ? "bingo_numbers_2.txt"
-        : "bingo_numbers.txt";
+        ? TEST
+        : "";
     try {
-      String listOfNumbers = Files.readString(Path.of("src/main/resources/files/" + path));
+      String listOfNumbers = Files.readString(
+          Path.of("src/main/resources/files/bingo_numbers" + path + ".txt"));
       return Arrays.asList(listOfNumbers.split(","));
     } catch (Exception e) {
       e.printStackTrace();
@@ -29,18 +31,18 @@ public class DayFourUtils {
   }
 
   /**
-   * Generates the bingo boards by reading the bingo_boards text file and parsing the numbers.
+   * Generates the bingo boards by reading the boards text file and parsing the numbers.
    *
    * @return A list of Boards
    */
   public static List<Card> generateBoards(boolean isTest) {
     final String path = isTest
-        ? "bingo_boards_2.txt"
-        : "bingo_boards.txt";
+        ? TEST
+        : "";
     try {
       List<String> allRows =
-          //Files.readAllLines(Path.of("src/main/resources/files/bingo_boards_2.txt"));
-          Files.readAllLines(Path.of("src/main/resources/files/" + path));
+          Files.readAllLines(
+              Path.of("src/main/resources/files/bingo_boards" + path + ".txt"));
       // Adding an empty line at the end to allow the creation of the last board since the criteria
       // for adding a new board is that the next line after the last is empty
       allRows.add("");
@@ -55,15 +57,12 @@ public class DayFourUtils {
         if (!trimmedString.isEmpty()) {
           //Add a new row, splitting it by one or more empty spaces
           String[] splitStr = trimmedString.split("\\s+");
-          List<String> stringRow = createMutableList(Arrays.asList(splitStr));
-          newCard.setId(UUID.randomUUID());
+          //Since Arrays.asList returns a list in which we cannot remove any element, and it will
+          //be necessary to do it, we create a new list which has the remove() method
+          List<String> stringRow = new ArrayList<>(Arrays.asList(splitStr));
           newCard.addRow(stringRow);
-          //Add the numbers
           newCard.addNumbers(stringRow);
-          //If this is the last line, since there's no empty space after it, we must put it in the
-          // board list too
-        } else { //If the new row does not have any number it means we've reached the last row of
-          // the board
+        } else {
           cards.add(newCard);
           newCard = new Card();
         }
@@ -91,16 +90,6 @@ public class DayFourUtils {
       e.printStackTrace();
       return null;
     }
-  }
-
-  /**
-   * Turns an immutable list into a mutable one.
-   *
-   * @param oldList The immutable list
-   * @return The mutable list
-   */
-  private static List<String> createMutableList(List<String> oldList) {
-    return new ArrayList<>(oldList);
   }
 
 }
