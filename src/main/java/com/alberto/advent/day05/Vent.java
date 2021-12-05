@@ -1,5 +1,6 @@
 package com.alberto.advent.day05;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,20 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Vent {
 
-  private Point origin;
-  private Point destination;
+  private Coordinate origin;
+  private Coordinate destination;
+  private List<Coordinate> route;
+
+  public Vent(Coordinate origin, Coordinate destination) {
+    this.origin = origin;
+    this.destination = destination;
+  }
 
   @Override public String toString() {
     return "Vent{" +
-        "origin=" + origin.toString() +
-        ", destination=" + destination.toString() +
+        "origin=" + origin +
+        ", destination=" + destination +
+        ", ventSize=" + route +
         '}';
   }
 
@@ -25,7 +33,7 @@ public class Vent {
   @Setter
   @NoArgsConstructor
   @AllArgsConstructor
-  public static class Point {
+  public static class Coordinate {
     private int x;
     private int y;
 

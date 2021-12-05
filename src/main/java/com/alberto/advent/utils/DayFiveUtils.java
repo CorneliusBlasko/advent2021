@@ -25,15 +25,17 @@ public class DayFiveUtils {
       List<Vent> vents = new ArrayList<>();
       for (String row : allRows) {
           String[] lineWithoutArrows = row.split("->");
-          String[] originArray =
+          String[] originPoints =
               Arrays.toString(lineWithoutArrows[0].trim().split("\\s+")).replaceAll("\\[", "").replaceAll("\\]","").split(",");
-          String[] destinationArray =
+          String[] destinationPoints =
               Arrays.toString(lineWithoutArrows[1].trim().split("\\s+")).replaceAll("\\[", "").replaceAll("\\]","").split(",");
-          Vent.Point originPoint = new Vent.Point(Integer.parseInt(originArray[0]),
-              Integer.parseInt(originArray[1]));
-          Vent.Point destinationPoint = new Vent.Point(Integer.parseInt(destinationArray[0]),
-              Integer.parseInt(destinationArray[1]));
-          Vent vent = new Vent(originPoint, destinationPoint);
+          Vent.Coordinate origin = new Vent.Coordinate(Integer.parseInt(originPoints[0]),
+              Integer.parseInt(originPoints[1]));
+          Vent.Coordinate destination = new Vent.Coordinate(Integer.parseInt(destinationPoints[0]),
+              Integer.parseInt(destinationPoints[1]));
+
+          Vent vent = new Vent(origin, destination);
+          vent.setRoute(generateRoute(origin, destination));
           vents.add(vent);
 
       }
@@ -48,6 +50,47 @@ public class DayFiveUtils {
     }
 
     return null;
+  }
+
+  public static List<Vent.Coordinate> generateRoute(Vent.Coordinate origin,
+      Vent.Coordinate destination) {
+    List<Vent.Coordinate> coordinates = new ArrayList<>();
+    if (isCoordinateValid(origin, destination)) {
+      if (isXHigher(origin, destination)) {
+        if(origin.getY() > destination.getY()) {
+          for(int i = 0; i <= destination.getY(); i++) {
+            coordinates.add(new Vent.Coordinate(origin.getX(), origin.getY() + 1)); // CHECK ME
+          }
+        } else {
+          for(int i = 0; i <= origin.getY(); i++) {
+            coordinates.add(new Vent.Coordinate((origin.getX() + 1), origin.getY())); // CHECK ME
+          }
+        }
+      } else {
+        if(origin.getX() > destination.getX()) {
+          for(int i = 0; i<= origin.getX(); i++) {
+            coordinates.add(new Vent.Coordinate(origin.getX() + i, origin.getX())); // FIX ME
+          }
+        } else {
+          for(int i = 0; i <= destination.getX(); i++) {
+            coordinates.add(new Vent.Coordinate((origin.getX() + i), origin.getY())); // IT WORKS!
+          }
+        }
+      }
+
+      return coordinates;
+
+    } else {
+      return null;
+    }
+  }
+
+  public static boolean isCoordinateValid(Vent.Coordinate origin, Vent.Coordinate destination) {
+    return origin.getX() == destination.getX() || origin.getY() == destination.getY();
+  }
+
+  public static boolean isXHigher(Vent.Coordinate origin, Vent.Coordinate destination) {
+    return origin.getX() == destination.getX();
   }
 
   public static String[][] createMap() {
