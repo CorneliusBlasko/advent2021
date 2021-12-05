@@ -13,8 +13,8 @@ public class Bingo {
   public void start(boolean isTest) {
     long firstWinner = firstCardWins(isTest);
     long lastWinner = lastCardWins(isTest);
-    System.out.println("The first winning number is: " + firstWinner);
-    System.out.println("The last winning number is: " + lastWinner);
+    System.out.println("Day four - The first winning number is: " + firstWinner);
+    System.out.println("Day four - The last winning number is: " + lastWinner);
   }
 
   /**
@@ -34,8 +34,8 @@ public class Bingo {
       // Iterate through every card
       for (Card card : cards) {
         //Check if you've won!
-        if (amIaWinner(card, number)) {
-          return calculateWinner(card, number);
+        if (didIWon(card, number)) {
+          return calculateWinningNumber(card, number);
         }
       }
     }
@@ -51,7 +51,7 @@ public class Bingo {
   public long lastCardWins(boolean isTest) {
     List<Card> cards = DayFourUtils.generateBoards(isTest);
     List<String> numbers = DayFourUtils.getBingoNumbers(isTest);
-    LinkedMap<String, Card> winners = new LinkedMap<>();
+    LinkedMap<String, Card> winnerCards = new LinkedMap<>();
 
     //Start the draw
     assert numbers != null;
@@ -59,24 +59,20 @@ public class Bingo {
     for (String number : numbers) {
       // Iterate through every card
       for (Card card : cards) {
-        //Skip the card if it has an empty row or column
-        if (didIWon(card.getRows())
-            || didIWon(card.getColumns())) {
+        //Skip the card if it has an empty row or column, meaning it has already won,
+        //so the game won't remove any more values thus tampering with the final number calculation
+        if (areRowsEmpty(card.getRows()) || areRowsEmpty(card.getColumns())) {
           continue;
         }
-        // If the card is a winner, put it in the list
-        if (amIaWinner(card, number)) {
-          //Remove the number from the card
-          winners.put(number, card);
+        if (didIWon(card, number)) {
+          winnerCards.put(number, card);
         }
       }
     }
-    return calculateWinner(winners.get(winners.lastKey()), winners.lastKey());
+    return calculateWinningNumber(winnerCards.get(winnerCards.lastKey()), winnerCards.lastKey());
   }
 
-  private long calculateWinner(Card card, String number) {
-    //Parse row and columns values to long
-
+  private long calculateWinningNumber(Card card, String number) {
     List<Long> numberList = card.getNumbers().stream().map(Long::parseLong)
         .collect(Collectors.toList());
     long numberSum = numberList.stream().mapToLong(Long::longValue).sum();
@@ -86,7 +82,22 @@ public class Bingo {
   }
 
 
-  private boolean didIWon(List<List<String>> rows) {
+  private boolean didIWon(Card card, String number) {
+    // If the number exists in a row or a column, remove it from there and also from the list
+    // of numbers
+    for (int i = 0; i <= 4; i++) {
+      card.getRows().get(i).remove(number);
+      card.getColumns().get(i).remove(number);
+      card.getNumbers().remove(number);
+      // Check if there's an empty row or column after this. If there is, we won!
+      if (areRowsEmpty(card.getRows()) || areRowsEmpty(card.getColumns())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean areRowsEmpty(List<List<String>> rows) {
     for (List<String> row : rows) {
       if (row.isEmpty()) {
         return true;
@@ -94,21 +105,4 @@ public class Bingo {
     }
     return false;
   }
-
-  private boolean amIaWinner(Card card, String number) {
-    // If the number exists in a row or a column, remove it from there and also from the list
-    // of numbers
-    // Check if there's an empty row or column. If it is, we won!
-    for (int i = 0; i <= 4; i++) {
-      card.getRows().get(i).remove(number);
-      card.getColumns().get(i).remove(number);
-      card.getNumbers().remove(number);
-      // Check if there's an empty row or column. If it is, we won!
-      if (didIWon(card.getRows()) || didIWon(card.getColumns())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
 }

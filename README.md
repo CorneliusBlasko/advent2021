@@ -9,7 +9,7 @@ each other.
 
 Go to `src/main/resources/templates` to read the descriptions of the problems. Yes, the pages are
 copied from the Advent of code website, no copyright infringement intended, all rights belong to
-Eric Wastl.
+Eric Wastl. I just wanted to make my project prettier.
 
 ### Days
 
@@ -18,3 +18,4 @@ These are the classes that contain the logic for each day:
 1. SonarSweep
 2. Diver
 3. LifeSupport, Diagnostic
+4. Bingo

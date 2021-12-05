@@ -13,7 +13,6 @@ public class Card {
   private List<List<String>> rows;
   private List<List<String>> columns;
   private List<String> numbers;
-  private UUID id;
 
   /**
    * Constructor for the class.
