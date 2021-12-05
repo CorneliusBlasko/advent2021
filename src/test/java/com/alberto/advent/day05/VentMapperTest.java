@@ -8,6 +8,6 @@ public class VentMapperTest {
   @Test
   public void test_00(){
     DayFiveUtils.coordinates();
-//    DayFiveUtils.createMap();
+    DayFiveUtils.createMap();
   }
 }

@@ -60,9 +60,9 @@ public class DayFiveUtils {
       }
     }
 
-//    for (String[] strings : map) {
-//      System.out.println(Arrays.toString(strings));
-//    }
+    for (String[] strings : map) {
+      System.out.println(Arrays.toString(strings));
+    }
 
     return map;
 
