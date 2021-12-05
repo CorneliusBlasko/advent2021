@@ -2,6 +2,7 @@ package com.alberto.advent.day04;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ public class Card {
   private List<List<String>> rows;
   private List<List<String>> columns;
   private List<String> numbers;
+  private UUID id;
 
   /**
    * Constructor for the class.

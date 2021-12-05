@@ -33,11 +33,9 @@ public class Bingo {
     for (String number : numbers) {
       // Iterate through every card
       for (Card card : cards) {
+        //Check if you've won!
         if (amIaWinner(card, number)) {
-          List<Long> numberList = card.getNumbers().stream().map(Long::parseLong)
-              .collect(Collectors.toList());
-          long numberSum = numberList.stream().mapToLong(Long::longValue).sum();
-          return numberSum * Long.parseLong(number);
+          return calculateWinner(card, number);
         }
       }
     }
@@ -61,15 +59,16 @@ public class Bingo {
     for (String number : numbers) {
       // Iterate through every card
       for (Card card : cards) {
+        //Skip the card if it has an empty row or column
+        if (didIWon(card.getRows())
+            || didIWon(card.getColumns())) {
+          continue;
+        }
         // If the card is a winner, put it in the list
-        if (amIaWinner(card, number) //The card has won
-            && !winners.containsValue(card) //The card is already in the winners map
-            && winners.size() < cards.size()) { //There are no cards left
+        if (amIaWinner(card, number)) {
+          //Remove the number from the card
           winners.put(number, card);
         }
-      }
-      if (winners.size() == cards.size()) {
-        break;
       }
     }
     return calculateWinner(winners.get(winners.lastKey()), winners.lastKey());
@@ -77,13 +76,10 @@ public class Bingo {
 
   private long calculateWinner(Card card, String number) {
     //Parse row and columns values to long
-    long numberSum = 0L;
-    for (List<String> row : card.getRows()) {
-      List<Long> rowLong = row.stream().map(Long::parseLong).collect(Collectors.toList());
-      for (Long value : rowLong) {
-        numberSum += value;
-      }
-    }
+
+    List<Long> numberList = card.getNumbers().stream().map(Long::parseLong)
+        .collect(Collectors.toList());
+    long numberSum = numberList.stream().mapToLong(Long::longValue).sum();
 
     String trimmedNumber = number.replaceAll("^\"|\"$", "");
     return numberSum * Long.parseLong(trimmedNumber);

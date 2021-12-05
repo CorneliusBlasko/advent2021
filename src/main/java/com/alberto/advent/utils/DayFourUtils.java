@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class DayFourUtils {
 
@@ -55,6 +56,7 @@ public class DayFourUtils {
           //Add a new row, splitting it by one or more empty spaces
           String[] splitStr = trimmedString.split("\\s+");
           List<String> stringRow = createMutableList(Arrays.asList(splitStr));
+          newCard.setId(UUID.randomUUID());
           newCard.addRow(stringRow);
           //Add the numbers
           newCard.addNumbers(stringRow);
