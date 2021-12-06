@@ -16,17 +16,13 @@ public class Vent {
   private Point destination;
   private List<Point> route;
 
-  public Vent(Point origin, Point destination) {
-    this.origin = origin;
-    this.destination = destination;
-  }
-
-  @Override public String toString() {
-    return "Vent{" +
-        "origin=" + origin +
-        ", destination=" + destination +
-        ", ventSize=" + route +
-        '}';
+  @Override
+  public String toString() {
+    return "Vent{"
+        + "origin=" + origin
+        + ", destination=" + destination
+        + ", ventSize=" + route
+        + '}';
   }
 
   @Getter
@@ -34,14 +30,16 @@ public class Vent {
   @NoArgsConstructor
   @AllArgsConstructor
   public static class Point {
-    private int x;
-    private int y;
 
-    @Override public String toString() {
-      return "Point{" +
-          "x=" + x +
-          ", y=" + y +
-          '}';
+    private int abscissa;
+    private int ordinate;
+
+    @Override
+    public String toString() {
+      return "Point{"
+          + "x=" + abscissa
+          + ", y=" + ordinate
+          + '}';
     }
   }
 }

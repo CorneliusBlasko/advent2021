@@ -9,24 +9,43 @@ public class Hydrothermal {
   private final int[][] map;
   private final boolean isTest;
 
-  public Hydrothermal(boolean isTest) {
-    this.vents = DayFiveUtils.createVents(isTest);
+  private static final String PART_ONE = "first";
+  private static final String PART_TWO = "second";
+
+  /**
+   * Starts the vent count.
+   *
+   * @param isTest Whether the data is test or real
+   */
+  public Hydrothermal(boolean isTest, boolean isPartOne) {
+    this.vents = DayFiveUtils.createVents(isTest, isPartOne);
     this.map = DayFiveUtils.createMap(isTest);
     this.isTest = isTest;
   }
 
-  public int processMap() {
+  /**
+   * Marks all the vents points in the map.
+   *
+   * @return The final number of intersections where amount is greater than 2
+   */
+  public int processMap(boolean isPartOne) {
     for (Vent vent : vents) {
       if (null != vent.getRoute()) {
         for (Vent.Point point : vent.getRoute()) {
-          map[point.getX()][point.getY()]++;
+          map[point.getAbscissa()][point.getOrdinate()]++;
         }
       }
     }
 
     int numberOfIntersections = calculateNumberOfIntersections(isTest, map);
-    System.out.println("Day five - The first number of intersetctions is: " + numberOfIntersections);
-//    DayFiveUtils.printMap(map);
+    if (!isTest) {
+      String part = isPartOne
+          ? PART_ONE
+          : PART_TWO;
+      System.out.println(
+          "Day five - The " + part + " number of vent intersections is: " + numberOfIntersections);
+    }
+    //DayFiveUtils.printMap(map);
     return numberOfIntersections;
   }
 
@@ -34,12 +53,14 @@ public class Hydrothermal {
     int rows = 1000;
     int numberOfIntersections = 0;
 
-    if(isTest){
+    if (isTest) {
       rows = 10;
     }
-    for (int x = 0; x <rows; x++) {
-      for (int y = 0; y <rows; y++) {
-        if (map[x][y]>1) {numberOfIntersections++;}
+    for (int x = 0; x < rows; x++) {
+      for (int y = 0; y < rows; y++) {
+        if (map[x][y] > 1) {
+          numberOfIntersections++;
+        }
       }
     }
     return numberOfIntersections;

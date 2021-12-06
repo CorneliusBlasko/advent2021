@@ -19,3 +19,4 @@ These are the classes that contain the logic for each day:
 2. Diver
 3. LifeSupport, Diagnostic
 4. Bingo
+5. Hydrothermal
