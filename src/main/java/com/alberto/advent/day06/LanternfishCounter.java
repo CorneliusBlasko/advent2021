@@ -17,13 +17,15 @@ public class LanternfishCounter {
    * @param isTest Whether to use test data
    */
   public LanternfishCounter(boolean isTest, boolean isPartOne) {
-    String startData = DaySixUtils.getFishes(isTest);
-    DaySixUtils.createLanternfishes(startData, isTest);
+    DaySixUtils.setUp(isTest);
     if (isPartOne) {
-      this.numberOfLanternfishes = DaySixUtils.breed(80);
+      //DaySixUtils.breed(80);
+      DaySixUtils.breed(80);
     } else {
-      this.numberOfLanternfishes = DaySixUtils.breed(256);
+      DaySixUtils.breed(256);
     }
+    numberOfLanternfishes = DaySixUtils.getTotalLanternfishes();
+
     if (!isTest) {
       String part = isPartOne
           ? PART_ONE
