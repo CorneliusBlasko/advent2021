@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class LanternfishCounter {
 
-  private long numberOfLanternfishes = 0L;
+  private long lanternfish = 0L;
 
   private static final String PART_ONE = "first";
   private static final String PART_TWO = "second";
@@ -17,21 +17,21 @@ public class LanternfishCounter {
    * @param isTest Whether to use test data
    */
   public LanternfishCounter(boolean isTest, boolean isPartOne) {
-    DaySixUtils.setUp(isTest);
     if (isPartOne) {
-      //DaySixUtils.breed(80);
-      DaySixUtils.breed(80);
+      // DaySixUtils.breed(isTest, 80);
+      DaySixUtils.breed(isTest, 80);
     } else {
-      DaySixUtils.breed(256);
+      // DaySixUtils.breed(isTest, 256);
+      DaySixUtils.breed(isTest, 256);
     }
-    numberOfLanternfishes = DaySixUtils.getTotalLanternfishes();
+    lanternfish = DaySixUtils.getTotalLanternfish();
 
     if (!isTest) {
       String part = isPartOne
           ? PART_ONE
           : PART_TWO;
       System.out.println(
-          "Day five - The " + part + " number of lanternfish is: " + numberOfLanternfishes);
+          "Day five - The " + part + " number of lanternfish is: " + lanternfish);
     }
   }
 }
