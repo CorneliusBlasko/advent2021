@@ -26,6 +26,7 @@ public class Hydrothermal {
 
     int numberOfIntersections = calculateNumberOfIntersections(isTest, map);
     System.out.println("Day five - The first number of intersetctions is: " + numberOfIntersections);
+//    DayFiveUtils.printMap(map);
     return numberOfIntersections;
   }
 
