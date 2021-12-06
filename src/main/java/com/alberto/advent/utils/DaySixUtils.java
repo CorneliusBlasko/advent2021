@@ -2,11 +2,10 @@ package com.alberto.advent.utils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Deque;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DaySixUtils {
@@ -14,44 +13,9 @@ public class DaySixUtils {
   private static final String TEST = "_test";
   private static final Integer MATURITY_RATE = 8;
 
-  private static Long totalLanternfishes = 0L;
-  private static Map<UUID, Integer> currentFishes = new HashMap<>();
-
-  /**
-   * .
-   *
-   * @param isTest d
-   */
-  public static void setUp(boolean isTest) {
-    List<String> fishesStringList = Arrays.asList(getFishes(isTest).split(","));
-    List<Integer> fishesIntegerList = fishesStringList.stream().map(Integer::parseInt)
-        .collect(Collectors.toList());
-    for (int i = 0; i < fishesIntegerList.size(); i++) {
-      currentFishes.put(UUID.randomUUID(), fishesIntegerList.get(i));
-    }
-  }
-
-  /**
-   * .
-   *
-   * @param days d
-   */
-  public static void breed(int days) {
-    for (int i = 1; i <= days; i++) {
-      HashMap<UUID, Integer> todaysFishes = new HashMap<>();
-      for (Map.Entry<UUID, Integer> entry : currentFishes.entrySet()) {
-        if (entry.getValue() == 0) {
-          todaysFishes.put(entry.getKey(), 6);
-          todaysFishes.put(UUID.randomUUID(), 8);
-        } else {
-          todaysFishes.put(entry.getKey(), entry.getValue() - 1);
-        }
-      }
-      currentFishes = todaysFishes;
-      System.out.println("size: " + (long) currentFishes.size());
-    }
-    totalLanternfishes = (long) currentFishes.size();
-  }
+  private static Deque<Long> newborns = new ArrayDeque<>();
+  private static Long totalLanternfish = 0L;
+  //private static Map<UUID, Integer> currentFishes = new HashMap<>();
 
   /**
    * Retrieves the start data for lanternfish.
@@ -73,8 +37,85 @@ public class DaySixUtils {
     return allRows;
   }
 
-  public static Long getTotalLanternfishes() {
-    return totalLanternfishes;
+  /**
+   * Creates the lanternfishes data.
+   *
+   * @param isTest Whether the test data is used
+   */
+
+  public static void createSchool(boolean isTest) {
+    newborns = new ArrayDeque<>();
+    totalLanternfish = 0L;
+    Map<Long, Long> lanternFishes = Arrays.stream(getFishes(isTest).split(","))
+        .map(Integer::parseInt)
+        .sorted()
+        .collect(Collectors.groupingBy(Integer::longValue, Collectors.counting()));
+
+    for (Long i = 0L; i <= MATURITY_RATE; i++) {
+      Long fishCount = lanternFishes.getOrDefault(i, 0L);
+      newborns.add(fishCount);
+      totalLanternfish += fishCount;
+    }
   }
+
+  /**
+   * Makes the lanternfishes breed.
+   *
+   * @param days The total amount of days to be calculated
+   */
+
+  public static void breed(boolean isTest, int days) {
+    createSchool(isTest);
+    for (int day = 0; day < days; day++) {
+
+      Long todaysNewborn = newborns.poll();
+      Long fishesCdMinusOne = newborns.pollLast();
+      Long fishesCdMinusTwo = newborns.pollLast();
+
+      if (fishesCdMinusOne != null && fishesCdMinusTwo != null && todaysNewborn != null) {
+        newborns.addLast(fishesCdMinusTwo + todaysNewborn);
+        newborns.addLast(fishesCdMinusOne);
+        newborns.addLast(todaysNewborn);
+      }
+
+      totalLanternfish += todaysNewborn;
+
+    }
+  }
+
+  public static Long getTotalLanternfish() {
+    return totalLanternfish;
+  }
+
+  /* OLD VERSION - NOT TIME EFFICIENT FOR THE SECOND PART */
+  /*
+  public static void setUp(boolean isTest) {
+    List<String> fishesStringList = Arrays.asList(getFishes(isTest).split(","));
+    List<Integer> fishesIntegerList = fishesStringList.stream().map(Integer::parseInt)
+        .collect(Collectors.toList());
+    for (Integer integer : fishesIntegerList) {
+      currentFishes.put(UUID.randomUUID(), integer);
+    }
+  }
+
+
+  public static void breed(boolean isTest, int days) {
+    setUp(isTest);
+    for (int i = 1; i <= days; i++) {
+      HashMap<UUID, Integer> todaysFishes = new HashMap<>();
+      for (Map.Entry<UUID, Integer> entry : currentFishes.entrySet()) {
+        if (entry.getValue() == 0) {
+          todaysFishes.put(entry.getKey(), 6);
+          todaysFishes.put(UUID.randomUUID(), 8);
+        } else {
+          todaysFishes.put(entry.getKey(), entry.getValue() - 1);
+        }
+      }
+      currentFishes = todaysFishes;
+      System.out.println("size: " + (long) currentFishes.size());
+    }
+    totalLanternfish = (long) currentFishes.size();
+  }
+  */
 
 }
