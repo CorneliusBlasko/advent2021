@@ -12,11 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Vent {
 
-  private Coordinate origin;
-  private Coordinate destination;
-  private List<Coordinate> route;
+  private Point origin;
+  private Point destination;
+  private List<Point> route;
 
-  public Vent(Coordinate origin, Coordinate destination) {
+  public Vent(Point origin, Point destination) {
     this.origin = origin;
     this.destination = destination;
   }
@@ -33,7 +33,7 @@ public class Vent {
   @Setter
   @NoArgsConstructor
   @AllArgsConstructor
-  public static class Coordinate {
+  public static class Point {
     private int x;
     private int y;
 
