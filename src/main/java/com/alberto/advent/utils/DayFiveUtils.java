@@ -35,10 +35,8 @@ public class DayFiveUtils {
             Integer.parseInt(destinationCoordinates[0]),
             Integer.parseInt(destinationCoordinates[1]));
 
-        Vent vent = new Vent(origin, destination, generateRoute(origin, destination));
+        Vent vent = new Vent(origin, destination, generateRoutesWithoutDiagonals(origin, destination));
         vents.add(vent);
-        //Display the vent
-//        printVent(vent);
       }
       return vents;
 
@@ -48,25 +46,16 @@ public class DayFiveUtils {
     return null;
   }
 
-  private static void printVent(Vent vent) {
-      if (null != vent.getRoute()) {
-        System.out.println("Origin: " + vent.getOrigin().toString());
-        System.out.println("Destination: " + vent.getDestination().toString());
-        vent.getRoute().forEach(System.out::println);
-      }
-      System.out.println("\n");
-  }
-
   private static String[] cleanUpCoordinates(String dirtyLine) {
     return Arrays.toString(dirtyLine.trim().split("\\s+")).replaceAll("\\[", "")
-        .replaceAll("\\]", "").split(",");
+        .replaceAll("]", "").split(",");
   }
 
-  public static List<Vent.Point> generateRoute(Vent.Point origin,
+  public static List<Vent.Point> generateRoutesWithoutDiagonals(Vent.Point origin,
       Vent.Point destination) {
     List<Vent.Point> points = new ArrayList<>();
-    if (isCoordinateValid(origin, destination)) { //A coordinate is valid if the origin and
-      // destination draw a straight, non-diagonal line
+    //A coordinate is valid if the origin and destination draw a straight line
+    if (isStraightRoute(origin, destination)) {
       if (areXTheSame(origin, destination)) {
         if (origin.getY() > destination.getY()) { //Example: (0,9), (0,5)
           for (int i = destination.getY(); i <= origin.getY(); i++) {
@@ -88,15 +77,12 @@ public class DayFiveUtils {
           }
         }
       }
-
       return points;
-
-    } else {
-      return null;
     }
+    return null;
   }
 
-  public static boolean isCoordinateValid(Vent.Point origin, Vent.Point destination) {
+  public static boolean isStraightRoute(Vent.Point origin, Vent.Point destination) {
     return origin.getX() == destination.getX() || origin.getY() == destination.getY();
   }
 
@@ -106,9 +92,10 @@ public class DayFiveUtils {
 
   public static int[][] createMap(boolean isTest) {
     int rows = 1000;
-    if(isTest){
+    if (isTest) {
       rows = 10;
     }
+
     int[][] map = new int[rows][rows];
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < rows; j++) {
@@ -116,15 +103,6 @@ public class DayFiveUtils {
       }
     }
 
-    //Display map
-//    printMap(map);
-
     return map;
-  }
-
-  public static void printMap(int[][] map) {
-    for (int[] points : map) {
-      System.out.println(Arrays.toString(points));
-    }
   }
 }

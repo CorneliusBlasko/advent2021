@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class HydrotermalTest {
+public class HydrothermalTest {
 
   @Test
   @DisplayName("Test map and vents creation")
@@ -20,7 +20,7 @@ public class HydrotermalTest {
   public void test_01() {
     Vent.Point origin = new Vent.Point(1, 9);
     Vent.Point destination = new Vent.Point(5, 9);
-    List<Vent.Point> route = DayFiveUtils.generateRoute(origin, destination);
+    List<Vent.Point> route = DayFiveUtils.generateRoutesWithoutDiagonals(origin, destination);
     Assertions.assertNotNull(route);
     Assertions.assertEquals(5, route.size());
     Assertions.assertEquals(4, route.get(3).getX());
@@ -28,7 +28,7 @@ public class HydrotermalTest {
 
     Vent.Point origin2 = new Vent.Point(0, 9);
     Vent.Point destination2 = new Vent.Point(5, 9);
-    List<Vent.Point> route2 = DayFiveUtils.generateRoute(origin2, destination2);
+    List<Vent.Point> route2 = DayFiveUtils.generateRoutesWithoutDiagonals(origin2, destination2);
     Assertions.assertNotNull(route2);
     Assertions.assertEquals(6, route2.size());
     Assertions.assertEquals(3, route2.get(3).getX());
@@ -36,7 +36,7 @@ public class HydrotermalTest {
 
     Vent.Point origin3 = new Vent.Point(5, 9);
     Vent.Point destination3 = new Vent.Point(1, 9);
-    List<Vent.Point> route3 = DayFiveUtils.generateRoute(origin3, destination3);
+    List<Vent.Point> route3 = DayFiveUtils.generateRoutesWithoutDiagonals(origin3, destination3);
     Assertions.assertNotNull(route3);
     Assertions.assertEquals(5, route3.size());
     Assertions.assertEquals(4, route3.get(3).getX());
@@ -50,7 +50,7 @@ public class HydrotermalTest {
     //Coordinate X starting at a non-zero value
     Vent.Point origin = new Vent.Point(0, 9);
     Vent.Point destination = new Vent.Point(0, 5);
-    List<Vent.Point> route = DayFiveUtils.generateRoute(origin, destination);
+    List<Vent.Point> route = DayFiveUtils.generateRoutesWithoutDiagonals(origin, destination);
     Assertions.assertNotNull(route);
     Assertions.assertEquals(5, route.size());
     Assertions.assertEquals(0, route.get(3).getX());
@@ -59,7 +59,7 @@ public class HydrotermalTest {
     //Coordinate X starting at a zero value
     Vent.Point origin2 = new Vent.Point(0, 9);
     Vent.Point destination2 = new Vent.Point(0, 0);
-    List<Vent.Point> route2 = DayFiveUtils.generateRoute(origin2, destination2);
+    List<Vent.Point> route2 = DayFiveUtils.generateRoutesWithoutDiagonals(origin2, destination2);
     Assertions.assertNotNull(route2);
     Assertions.assertEquals(10, route2.size());
     Assertions.assertEquals(0, route2.get(3).getX());
@@ -68,7 +68,7 @@ public class HydrotermalTest {
     //Inverting the coordinates
     Vent.Point origin3 = new Vent.Point(0, 5);
     Vent.Point destination3 = new Vent.Point(0, 9);
-    List<Vent.Point> route3 = DayFiveUtils.generateRoute(origin3, destination3);
+    List<Vent.Point> route3 = DayFiveUtils.generateRoutesWithoutDiagonals(origin3, destination3);
     Assertions.assertNotNull(route3);
     Assertions.assertEquals(5, route3.size());
     Assertions.assertEquals(0, route3.get(3).getX());
@@ -76,17 +76,17 @@ public class HydrotermalTest {
   }
 
   @Test
-  @DisplayName("Calculate number with test data")
+  @DisplayName("Calculate part one number with test data")
   public void test_03(){
-    Hydrotermal hydrotermal = new Hydrotermal(true);
-    Assertions.assertEquals(5, hydrotermal.getNumberOfIntersections());
+    Hydrothermal hydrothermal = new Hydrothermal(true);
+    Assertions.assertEquals(5, hydrothermal.processMap());
   }
 
   @Test
-  @DisplayName("Calculate number with real data")
+  @DisplayName("Calculate part one number with real data")
   public void test_04(){
-    Hydrotermal hydrotermal = new Hydrotermal(false);
-    Assertions.assertEquals(4993, hydrotermal.getNumberOfIntersections());
+    Hydrothermal hydrothermal = new Hydrothermal(false);
+    Assertions.assertEquals(4993, hydrothermal.processMap());
   }
 
 }
