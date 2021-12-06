@@ -1,80 +1,90 @@
 package com.alberto.advent.utils;
 
 import com.alberto.advent.day05.Vent;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import javax.print.attribute.standard.Destination;
 
 public class DayFiveUtils {
 
-  public static List<Vent> coordinates() {
+  private static final String TEST = "_test";
+
+  public static List<Vent> createVents(boolean isTest) {
+    final String path = isTest
+        ? TEST
+        : "";
     try {
       List<String> allRows =
           Files.readAllLines(
               Path.of("src/main/resources/files"
-                      + "/vents_test.txt"));
+                  + "/vents" + path + ".txt"));
 
-
-      Scanner sc = new Scanner(new BufferedReader(new FileReader("src/main/resources/files"
-          + "/vents_test.txt")));
       List<Vent> vents = new ArrayList<>();
       for (String row : allRows) {
-          String[] lineWithoutArrows = row.split("->");
-          String[] originPoints =
-              Arrays.toString(lineWithoutArrows[0].trim().split("\\s+")).replaceAll("\\[", "").replaceAll("\\]","").split(",");
-          String[] destinationPoints =
-              Arrays.toString(lineWithoutArrows[1].trim().split("\\s+")).replaceAll("\\[", "").replaceAll("\\]","").split(",");
-          Vent.Point origin = new Vent.Point(Integer.parseInt(originPoints[0]),
-              Integer.parseInt(originPoints[1]));
-          Vent.Point destination = new Vent.Point(Integer.parseInt(destinationPoints[0]),
-              Integer.parseInt(destinationPoints[1]));
+        String[] lineWithoutArrows = row.split("->");
+        String[] originCoordinates = cleanUpCoordinates(lineWithoutArrows[0]);
+        String[] destinationCoordinates = cleanUpCoordinates(lineWithoutArrows[1]);
 
-          Vent vent = new Vent(origin, destination);
-          vent.setRoute(generateRoute(origin, destination));
-          vents.add(vent);
+        Vent.Point origin = new Vent.Point(
+            Integer.parseInt(originCoordinates[0]),
+            Integer.parseInt(originCoordinates[1]));
 
-      }
+        Vent.Point destination = new Vent.Point(
+            Integer.parseInt(destinationCoordinates[0]),
+            Integer.parseInt(destinationCoordinates[1]));
 
-      for (Vent vent : vents) {
-        System.out.println(vent.toString());
+        Vent vent = new Vent(origin, destination, generateRoute(origin, destination));
+        vents.add(vent);
+        //Display the vent
+//        printVent(vent);
       }
       return vents;
 
     } catch (Exception e) {
       e.printStackTrace();
     }
-
     return null;
+  }
+
+  private static void printVent(Vent vent) {
+      if (null != vent.getRoute()) {
+        System.out.println("Origin: " + vent.getOrigin().toString());
+        System.out.println("Destination: " + vent.getDestination().toString());
+        vent.getRoute().forEach(System.out::println);
+      }
+      System.out.println("\n");
+  }
+
+  private static String[] cleanUpCoordinates(String dirtyLine) {
+    return Arrays.toString(dirtyLine.trim().split("\\s+")).replaceAll("\\[", "")
+        .replaceAll("\\]", "").split(",");
   }
 
   public static List<Vent.Point> generateRoute(Vent.Point origin,
       Vent.Point destination) {
     List<Vent.Point> points = new ArrayList<>();
-    if (isCoordinateValid(origin, destination)) {
+    if (isCoordinateValid(origin, destination)) { //A coordinate is valid if the origin and
+      // destination draw a straight, non-diagonal line
       if (areXTheSame(origin, destination)) {
-        if(origin.getY() > destination.getY()) { //Example: (0,9), (0,5)
-          for(int i = destination.getY() ; i <= origin.getY(); i++) {
-            points.add(new Vent.Point(origin.getX(), i)); // IT WORKS!
+        if (origin.getY() > destination.getY()) { //Example: (0,9), (0,5)
+          for (int i = destination.getY(); i <= origin.getY(); i++) {
+            points.add(new Vent.Point(origin.getX(), i));
           }
         } else { //Example: (0,5), (0,9)
-          for(int i = origin.getY(); i <= destination.getY(); i++) {
-            points.add(new Vent.Point((origin.getX()), i)); // IT WORKS!
+          for (int i = origin.getY(); i <= destination.getY(); i++) {
+            points.add(new Vent.Point((origin.getX()), i));
           }
         }
       } else { //Example: (5,9), (1,9)
-        if(origin.getX() > destination.getX()) {
-          for(int i = destination.getX(); i<= origin.getX(); i++) {
-            points.add(new Vent.Point(i, origin.getY())); // FIX ME
+        if (origin.getX() > destination.getX()) {
+          for (int i = destination.getX(); i <= origin.getX(); i++) {
+            points.add(new Vent.Point(i, origin.getY()));
           }
         } else { //Example: (1,9), (5,9)
-          for(int i = origin.getX(); i <= destination.getX(); i++) {
-            points.add(new Vent.Point((i), origin.getY())); // IT WORKS!
+          for (int i = origin.getX(); i <= destination.getX(); i++) {
+            points.add(new Vent.Point((i), origin.getY()));
           }
         }
       }
@@ -94,21 +104,27 @@ public class DayFiveUtils {
     return origin.getX() == destination.getX();
   }
 
-  public static String[][] createMap() {
-    int rows = 9;
-    int columns = 9;
-    String[][] map = new String[rows][columns];
-    for (int i = 0; i < 9; i++) {
-      for (int j = 0; j < 9; j++) {
-        map[i][j] = "0";
+  public static int[][] createMap(boolean isTest) {
+    int rows = 1000;
+    if(isTest){
+      rows = 10;
+    }
+    int[][] map = new int[rows][rows];
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < rows; j++) {
+        map[i][j] = 0;
       }
     }
 
-    for (String[] strings : map) {
-      System.out.println(Arrays.toString(strings));
-    }
+    //Display map
+//    printMap(map);
 
     return map;
+  }
 
+  public static void printMap(int[][] map) {
+    for (int[] points : map) {
+      System.out.println(Arrays.toString(points));
+    }
   }
 }

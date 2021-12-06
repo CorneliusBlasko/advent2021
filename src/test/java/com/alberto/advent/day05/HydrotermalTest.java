@@ -6,12 +6,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class VentMapperTest {
+public class HydrotermalTest {
 
   @Test
+  @DisplayName("Test map and vents creation")
   public void test_00() {
-    DayFiveUtils.coordinates();
-    DayFiveUtils.createMap();
+    DayFiveUtils.createVents(true);
+    DayFiveUtils.createMap(true);
   }
 
   @Test
@@ -72,6 +73,20 @@ public class VentMapperTest {
     Assertions.assertEquals(5, route3.size());
     Assertions.assertEquals(0, route3.get(3).getX());
     Assertions.assertEquals(8, route3.get(3).getY());
+  }
+
+  @Test
+  @DisplayName("Calculate number with test data")
+  public void test_03(){
+    Hydrotermal hydrotermal = new Hydrotermal(true);
+    Assertions.assertEquals(5, hydrotermal.getNumberOfIntersections());
+  }
+
+  @Test
+  @DisplayName("Calculate number with real data")
+  public void test_04(){
+    Hydrotermal hydrotermal = new Hydrotermal(false);
+    Assertions.assertEquals(4993, hydrotermal.getNumberOfIntersections());
   }
 
 }
