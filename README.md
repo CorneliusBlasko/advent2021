@@ -20,3 +20,4 @@ These are the classes that contain the logic for each day:
 3. LifeSupport, Diagnostic
 4. Bingo
 5. Hydrothermal
+6. LanternfishCounter
