@@ -1,6 +1,7 @@
 package com.alberto.advent.day06;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,7 @@ public class LanternfishCounterTest {
   }
 
   @Test
+  @Disabled
   @DisplayName("Test part two with test data")
   public void test_02() {
     LanternfishCounter counter3 = new LanternfishCounter(true, false);
@@ -28,6 +30,7 @@ public class LanternfishCounterTest {
   }
 
   @Test
+  @Disabled
   @DisplayName("Test part two with real data")
   public void test_03() {
     LanternfishCounter counter4 = new LanternfishCounter(false, false);
