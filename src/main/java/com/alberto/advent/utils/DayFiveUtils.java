@@ -36,10 +36,10 @@ public class DayFiveUtils {
             Integer.parseInt(destinationCoordinates[0]),
             Integer.parseInt(destinationCoordinates[1]));
 
-        if(isStraightRoute(origin, destination)) {
-          route = generateRouteWithoutDiagonals(origin, destination);
+        if(routeIsStraight(origin, destination)) {
+          route = generateStraightRoute(origin, destination);
         } else {
-          route = generateRouteWithDiagonals(origin, destination);
+          route = generateDiagonalRoute(origin, destination);
         }
         Vent vent =
             new Vent(origin, destination, route);
@@ -58,11 +58,11 @@ public class DayFiveUtils {
         .replaceAll("]", "").split(",");
   }
 
-  public static List<Vent.Point> generateRouteWithoutDiagonals(Vent.Point origin,
+  public static List<Vent.Point> generateStraightRoute(Vent.Point origin,
       Vent.Point destination) {
     List<Vent.Point> route = new ArrayList<>();
     //A coordinate is valid if the origin and destination draw a straight line
-    if (isStraightRoute(origin, destination)) {
+    if (routeIsStraight(origin, destination)) {
       if (areXTheSame(origin, destination)) {
         if (origin.getY() > destination.getY()) { //Example: (0,9), (0,5)
           for (int i = destination.getY(); i <= origin.getY(); i++) {
@@ -89,7 +89,7 @@ public class DayFiveUtils {
     return null;
   }
 
-  public static boolean isStraightRoute(Vent.Point origin, Vent.Point destination) {
+  public static boolean routeIsStraight(Vent.Point origin, Vent.Point destination) {
     return origin.getX() == destination.getX() || origin.getY() == destination.getY();
   }
 
@@ -108,7 +108,7 @@ public class DayFiveUtils {
         Math.abs(destination.getY() - origin.getY()));
   }
 
-  public static List<Vent.Point> generateRouteWithDiagonals(Vent.Point origin, Vent.Point destination) {
+  public static List<Vent.Point> generateDiagonalRoute(Vent.Point origin, Vent.Point destination) {
     //A perfect diagonal increases or decreases in the same amount for all the coordinates
     List<Vent.Point> diagonalRoute = new ArrayList<>();
     int steps;
