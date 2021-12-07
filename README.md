@@ -21,3 +21,4 @@ These are the classes that contain the logic for each day:
 4. Bingo
 5. Hydrothermal
 6. LanternfishCounter
+7. Fuel
