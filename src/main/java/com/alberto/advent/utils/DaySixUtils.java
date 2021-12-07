@@ -5,7 +5,10 @@ import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DaySixUtils {
@@ -15,7 +18,7 @@ public class DaySixUtils {
 
   private static Deque<Long> newborns = new ArrayDeque<>();
   private static Long totalLanternfish = 0L;
-  //private static Map<UUID, Integer> currentFishes = new HashMap<>();
+  private static Map<UUID, Integer> currentFishes = new HashMap<>();
 
   /**
    * Retrieves the start data for lanternfish.
@@ -38,7 +41,7 @@ public class DaySixUtils {
   }
 
   /**
-   * Creates the lanternfishes data.
+   * Creates the lanternfish data.
    *
    * @param isTest Whether the test data is used
    */
@@ -58,23 +61,24 @@ public class DaySixUtils {
     }
   }
 
-  /**
-   * Makes the lanternfishes breed.
-   *
-   * @param days The total amount of days to be calculated
-   */
 
+  /**
+   * Starts the breeding.
+   *
+   * @param isTest Whether to use test data
+   * @param days   The days to breed
+   */
   public static void breed(boolean isTest, int days) {
     createSchool(isTest);
     for (int day = 0; day < days; day++) {
 
       Long todaysNewborn = newborns.poll();
-      Long fishesCdMinusOne = newborns.pollLast();
-      Long fishesCdMinusTwo = newborns.pollLast();
+      Long secondToLast = newborns.pollLast();
+      Long thirdToLast = newborns.pollLast();
 
-      if (fishesCdMinusOne != null && fishesCdMinusTwo != null && todaysNewborn != null) {
-        newborns.addLast(fishesCdMinusTwo + todaysNewborn);
-        newborns.addLast(fishesCdMinusOne);
+      if (secondToLast != null && thirdToLast != null && todaysNewborn != null) {
+        newborns.addLast(thirdToLast + todaysNewborn);
+        newborns.addLast(secondToLast);
         newborns.addLast(todaysNewborn);
       }
 
@@ -88,7 +92,11 @@ public class DaySixUtils {
   }
 
   /* OLD VERSION - NOT TIME EFFICIENT FOR THE SECOND PART */
-  /*
+  /**
+   * Sets the data.
+   *
+   * @param isTest Whether it's test data
+   */
   public static void setUp(boolean isTest) {
     List<String> fishesStringList = Arrays.asList(getFishes(isTest).split(","));
     List<Integer> fishesIntegerList = fishesStringList.stream().map(Integer::parseInt)
@@ -98,8 +106,13 @@ public class DaySixUtils {
     }
   }
 
-
-  public static void breed(boolean isTest, int days) {
+  /**
+   * Old breed logic.
+   *
+   * @param isTest Whether it's test data
+   * @param days   Days to breed
+   */
+  public static void breedOld(boolean isTest, int days) {
     setUp(isTest);
     for (int i = 1; i <= days; i++) {
       HashMap<UUID, Integer> todaysFishes = new HashMap<>();
@@ -116,6 +129,6 @@ public class DaySixUtils {
     }
     totalLanternfish = (long) currentFishes.size();
   }
-  */
+
 
 }

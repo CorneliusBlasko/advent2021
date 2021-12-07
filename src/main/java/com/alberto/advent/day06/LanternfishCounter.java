@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class LanternfishCounter {
 
-  private long lanternfish = 0L;
+  private final long lanternfish;
 
   private static final String PART_ONE = "first";
   private static final String PART_TWO = "second";
@@ -31,7 +31,7 @@ public class LanternfishCounter {
           ? PART_ONE
           : PART_TWO;
       System.out.println(
-          "Day five - The " + part + " number of lanternfish is: " + lanternfish);
+          "Day six - The " + part + " number of lanternfish is: " + lanternfish);
     }
   }
 }
