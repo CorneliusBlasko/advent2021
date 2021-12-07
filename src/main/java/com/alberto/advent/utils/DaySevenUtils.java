@@ -15,7 +15,8 @@ public class DaySevenUtils {
   private static final String TEST = "_test";
   private static List<Integer> positions = new ArrayList<>();
   private static long median;
-  private static double mean;
+  private static double meanFloor;
+  private static double meanCeil;
 
   /**
    * Gets all the crab ships' positions.
@@ -54,7 +55,7 @@ public class DaySevenUtils {
   /**
    * .
    */
-  public static void calculateMean(boolean isTest) {
+  public static void calculateMean() {
     BigDecimal total = new BigDecimal(positions.size());
     BigDecimal sum = new BigDecimal(positions.stream().mapToInt(Integer::intValue).sum());
     BigDecimal bigDecimalMean = sum.divide(total, 3, RoundingMode.HALF_UP);
@@ -62,14 +63,11 @@ public class DaySevenUtils {
     BigDecimal roundedBigMean = bigDecimalMean.round(context);
     double doubleMean = roundedBigMean.doubleValue();
 
-    //For the test data, doubleMean is 4.99, and it should be 5.
-    //However, for real data it is 500.55, and it should be 500.
-    //Hence, this ugly hack I'm not proud of
-    if (isTest) {
-      mean = Math.ceil(doubleMean);
-    } else {
-      mean = Math.floor(doubleMean);
-    }
+    //Both values are used to calculate the fuel consumption, then the lesser one is taken.
+    //This is caused by the event of having a decimal value as mean. In some cases, it should be
+    // rounded up. In others, rounded down. To solve it, the lesser value of both is considered.
+    meanCeil = Math.ceil(doubleMean);
+    meanFloor = Math.floor(doubleMean);
   }
 
   /**
@@ -79,7 +77,6 @@ public class DaySevenUtils {
    */
   public static long getFuelConsumption() {
     int fuelConsumption = 0;
-    //1. Calculate the distance of every ship to the median
     for (Integer position : positions) {
       if (position < median) {
         fuelConsumption += median - position;
@@ -88,7 +85,6 @@ public class DaySevenUtils {
         fuelConsumption += position - median;
       }
     }
-
     return fuelConsumption;
   }
 
@@ -98,24 +94,35 @@ public class DaySevenUtils {
    * @return The double rate of fuel consumption
    */
   public static long getDoubleFuelConsumption() {
-    int doubleFuelConsumption = 0;
+    double floor = compute(meanFloor);
+    double ceil = compute(meanCeil);
+    return (long) Math.min(floor, ceil);
+  }
+
+  /**
+   * Calculates the fuel consumption for the mean value passed by parameter.
+   *
+   * @return The total consumed fuel
+   */
+  public static double compute(double mean) {
+    int fuelConsumption = 0;
     for (Integer position : positions) {
       if (position < mean) {
         double distance = mean - position;
         for (int i = 1; i <= distance; i++) {
-          doubleFuelConsumption += i;
+          fuelConsumption += i;
         }
 
       }
       if (position > mean) {
         double distance = position - mean;
         for (int i = 1; i <= distance; i++) {
-          doubleFuelConsumption += i;
+          fuelConsumption += i;
         }
 
       }
     }
-    return doubleFuelConsumption;
+    return fuelConsumption;
   }
 
 }

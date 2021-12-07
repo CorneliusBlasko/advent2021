@@ -27,7 +27,7 @@ public class FuelTest {
   @DisplayName("Calculate double fuel consumption using test data")
   public void test_02() {
     DaySevenUtils.setShipsPosition(true);
-    DaySevenUtils.calculateMean(true);
+    DaySevenUtils.calculateMean();
     Assertions.assertEquals(168, DaySevenUtils.getDoubleFuelConsumption());
   }
 
@@ -35,7 +35,7 @@ public class FuelTest {
   @DisplayName("Calculate double fuel consumption using real data")
   public void test_03() {
     DaySevenUtils.setShipsPosition(false);
-    DaySevenUtils.calculateMean(false);
+    DaySevenUtils.calculateMean();
     Assertions.assertEquals(104149091, DaySevenUtils.getDoubleFuelConsumption());
   }
 
