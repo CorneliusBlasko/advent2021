@@ -69,22 +69,20 @@ public class DaySixUtils {
    * @param days   The days to breed
    */
   public static void breed(boolean isTest, int days) {
-    createSchool(isTest);
+    String schoolString = getFishes(isTest);
+    List<Integer> school = Arrays.stream(schoolString.split(",")).map(Integer::parseInt).collect(
+        Collectors.toList());
+    long[] fish = new long[9];
+    school.forEach(i -> fish[i]++);
+
     for (int day = 0; day < days; day++) {
-
-      Long todaysNewborn = newborns.poll();
-      Long secondToLast = newborns.pollLast();
-      Long thirdToLast = newborns.pollLast();
-
-      if (secondToLast != null && thirdToLast != null && todaysNewborn != null) {
-        newborns.addLast(thirdToLast + todaysNewborn);
-        newborns.addLast(secondToLast);
-        newborns.addLast(todaysNewborn);
-      }
-
-      totalLanternfish += todaysNewborn;
-
+      var newborn = fish[0];
+      System.arraycopy(fish, 1, fish, 0, fish.length - 1);
+      fish[6] += newborn;
+      fish[8] = newborn;
     }
+
+    totalLanternfish = Arrays.stream(fish).sum();
   }
 
   public static Long getTotalLanternfish() {
@@ -92,6 +90,7 @@ public class DaySixUtils {
   }
 
   /* OLD VERSION - NOT TIME EFFICIENT FOR THE SECOND PART */
+
   /**
    * Sets the data.
    *
