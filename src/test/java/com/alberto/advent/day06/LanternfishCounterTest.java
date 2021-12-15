@@ -1,7 +1,6 @@
 package com.alberto.advent.day06;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,14 +11,6 @@ public class LanternfishCounterTest {
   public void test_00() {
     LanternfishCounter counter1 = new LanternfishCounter(true, true);
     Assertions.assertEquals(5934, counter1.getLanternfish());
-  }
-
-  @Test
-  @Disabled
-  @DisplayName("Test part one with test data")
-  public void test_10() {
-    LanternfishCounter counter1 = new LanternfishCounter(true, true);
-    Assertions.assertEquals(7, counter1.getLanternfish());
   }
 
   @Test

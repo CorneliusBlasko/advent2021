@@ -3,16 +3,14 @@ package com.alberto.advent.utils;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DaySevenUtils {
+public class DaySevenUtils extends InputParser {
 
-  private static final String TEST = "_test";
+  private static final String FILENAME = "crabships";
   private static List<Integer> positions = new ArrayList<>();
   private static long median;
   private static double meanFloor;
@@ -24,16 +22,10 @@ public class DaySevenUtils {
    * @param isTest Whether to use test data
    */
   public static void setShipsPosition(boolean isTest) {
-    final String path = isTest
-        ? TEST
-        : "";
-    String allShips = "";
-    try {
-      allShips = Files.readString(
-          Path.of("src/main/resources/files/crabships" + path + ".txt"));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+
+    String allShips = getInputAsString(isTest, FILENAME);
+
+    assert allShips != null;
     positions = Arrays.stream(allShips.split(",")).map(Integer::parseInt).sorted().collect(
         Collectors.toList());
   }

@@ -1,15 +1,13 @@
 package com.alberto.advent.utils;
 
 import com.alberto.advent.day05.Vent;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DayFiveUtils {
+public class DayFiveUtils extends InputParser {
 
-  private static final String TEST = "_test";
+  private static final String FILENAME = "vents";
 
   /**
    * Creates the list of Vents based on the input file.
@@ -18,45 +16,37 @@ public class DayFiveUtils {
    * @return A list of all the vents in the input data
    */
   public static List<Vent> createVents(boolean isTest, boolean isPartOne) {
+
+    List<String> allRows = getInputAsStringList(isTest, FILENAME);
+
     List<Vent.Point> route;
-    final String path = isTest
-        ? TEST
-        : "";
-    try {
-      List<String> allRows =
-          Files.readAllLines(
-              Path.of("src/main/resources/files"
-                  + "/vents" + path + ".txt"));
 
-      List<Vent> vents = new ArrayList<>();
-      for (String row : allRows) {
-        String[] lineWithoutArrows = row.split("->");
-        String[] originCoordinates = cleanUpCoordinates(lineWithoutArrows[0]);
-        String[] destinationCoordinates = cleanUpCoordinates(lineWithoutArrows[1]);
+    List<Vent> vents = new ArrayList<>();
+    assert allRows != null;
+    for (String row : allRows) {
+      String[] lineWithoutArrows = row.split("->");
+      String[] originCoordinates = cleanUpCoordinates(lineWithoutArrows[0]);
+      String[] destinationCoordinates = cleanUpCoordinates(lineWithoutArrows[1]);
 
-        Vent.Point origin = new Vent.Point(
-            Integer.parseInt(originCoordinates[0]),
-            Integer.parseInt(originCoordinates[1]));
+      Vent.Point origin = new Vent.Point(
+          Integer.parseInt(originCoordinates[0]),
+          Integer.parseInt(originCoordinates[1]));
 
-        Vent.Point destination = new Vent.Point(
-            Integer.parseInt(destinationCoordinates[0]),
-            Integer.parseInt(destinationCoordinates[1]));
+      Vent.Point destination = new Vent.Point(
+          Integer.parseInt(destinationCoordinates[0]),
+          Integer.parseInt(destinationCoordinates[1]));
 
-        if (routeIsStraight(origin, destination) || isPartOne) {
-          route = generateStraightRoute(origin, destination);
-        } else {
-          route = generateDiagonalRoute(origin, destination);
-        }
-        Vent vent =
-            new Vent(origin, destination, route);
-        vents.add(vent);
+      if (routeIsStraight(origin, destination) || isPartOne) {
+        route = generateStraightRoute(origin, destination);
+      } else {
+        route = generateDiagonalRoute(origin, destination);
       }
-      return vents;
-
-    } catch (Exception e) {
-      e.printStackTrace();
+      Vent vent =
+          new Vent(origin, destination, route);
+      vents.add(vent);
     }
-    return null;
+    return vents;
+
   }
 
   private static String[] cleanUpCoordinates(String dirtyLine) {
@@ -204,6 +194,7 @@ public class DayFiveUtils {
 
   /**
    * Creates an empty map.
+   *
    * @param isTest Whether the map must allocate test or real data
    * @return A map filled with 0s in each position
    */
@@ -225,6 +216,7 @@ public class DayFiveUtils {
 
   /**
    * Prints the map for testing purposes.
+   *
    * @param map The map to be printed
    */
   public static void printMap(int[][] map) {
