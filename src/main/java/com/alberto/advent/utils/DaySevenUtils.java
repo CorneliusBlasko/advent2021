@@ -13,8 +13,8 @@ public class DaySevenUtils extends InputParser {
   private static final String FILENAME = "crabships";
   private static List<Integer> positions = new ArrayList<>();
   private static long median;
-  private static double meanFloor;
-  private static double meanCeil;
+  private static double averageFloor;
+  private static double averageCeil;
 
   /**
    * Gets all the crab ships' positions.
@@ -47,19 +47,19 @@ public class DaySevenUtils extends InputParser {
   /**
    * .
    */
-  public static void calculateMean() {
+  public static void calculateAverage() {
     BigDecimal total = new BigDecimal(positions.size());
     BigDecimal sum = new BigDecimal(positions.stream().mapToInt(Integer::intValue).sum());
-    BigDecimal bigDecimalMean = sum.divide(total, 3, RoundingMode.HALF_UP);
+    BigDecimal bigDecimalAverage = sum.divide(total, 3, RoundingMode.HALF_UP);
     MathContext context = new MathContext(4);
-    BigDecimal roundedBigMean = bigDecimalMean.round(context);
-    double doubleMean = roundedBigMean.doubleValue();
+    BigDecimal roundedBigAverage = bigDecimalAverage.round(context);
+    double doubleAverage = roundedBigAverage.doubleValue();
 
-    //Both values are used to calculate the fuel consumption, then the lesser one is taken.
-    //This is caused by the event of having a decimal value as mean. In some cases, it should be
+    // Both values are used to calculate the fuel consumption, then the lesser one is taken.
+    // This is caused by the event of the average being a decimal value. In some cases, it should be
     // rounded up. In others, rounded down. To solve it, the lesser value of both is considered.
-    meanCeil = Math.ceil(doubleMean);
-    meanFloor = Math.floor(doubleMean);
+    averageCeil = Math.ceil(doubleAverage);
+    averageFloor = Math.floor(doubleAverage);
   }
 
   /**
@@ -86,28 +86,28 @@ public class DaySevenUtils extends InputParser {
    * @return The double rate of fuel consumption
    */
   public static long getDoubleFuelConsumption() {
-    double floor = compute(meanFloor);
-    double ceil = compute(meanCeil);
+    double floor = compute(averageFloor);
+    double ceil = compute(averageCeil);
     return (long) Math.min(floor, ceil);
   }
 
   /**
-   * Calculates the fuel consumption for the mean value passed by parameter.
+   * Calculates the fuel consumption for the average value passed by parameter.
    *
    * @return The total consumed fuel
    */
-  public static double compute(double mean) {
+  public static double compute(double average) {
     int fuelConsumption = 0;
     for (Integer position : positions) {
-      if (position < mean) {
-        double distance = mean - position;
+      if (position < average) {
+        double distance = average - position;
         for (int i = 1; i <= distance; i++) {
           fuelConsumption += i;
         }
 
       }
-      if (position > mean) {
-        double distance = position - mean;
+      if (position > average) {
+        double distance = position - average;
         for (int i = 1; i <= distance; i++) {
           fuelConsumption += i;
         }

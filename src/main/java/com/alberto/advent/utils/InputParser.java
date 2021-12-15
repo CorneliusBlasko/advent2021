@@ -19,17 +19,11 @@ public class InputParser {
    * @return A String list representation of the input data
    */
   public static List<String> getInputAsStringList(boolean isTest, String fileName) {
-    final String path = isTest
-        ? TEST
-        : "";
 
     try {
       return Files.readAllLines(
-          Path.of(
-              ROUTE
-                  + fileName
-                  + path
-                  + EXTENSION));
+          Path.of(createRoute(ROUTE, fileName, getPath(isTest), EXTENSION))
+      );
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -45,22 +39,44 @@ public class InputParser {
    * @return A String representation of the input data
    */
   public static String getInputAsString(boolean isTest, String fileName) {
-    final String path = isTest
-        ? TEST
-        : "";
 
     try {
       return Files.readString(
-          Path.of(
-              ROUTE
-                  + fileName
-                  + path
-                  + EXTENSION));
+          Path.of(createRoute(ROUTE, fileName, getPath(isTest), EXTENSION))
+      );
 
     } catch (Exception e) {
       e.printStackTrace();
       return null;
     }
+  }
+
+  /**
+   * Creates the path depending on if it's the test data.
+   *
+   * @param isTest Whether to use test data
+   * @return The path
+   */
+  public static String getPath(boolean isTest) {
+    return isTest
+        ? TEST
+        : "";
+  }
+
+  /**
+   * Creates the route for the file to parse.
+   *
+   * @param route     The route top the input folder
+   * @param fileName  The file name
+   * @param path      The path
+   * @param extension The extension
+   * @return The full route
+   */
+  public static String createRoute(String route, String fileName, String path, String extension) {
+    return route
+        + fileName
+        + path
+        + extension;
   }
 
 }

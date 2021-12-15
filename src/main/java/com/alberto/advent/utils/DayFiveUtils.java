@@ -50,8 +50,10 @@ public class DayFiveUtils extends InputParser {
   }
 
   private static String[] cleanUpCoordinates(String dirtyLine) {
-    return Arrays.toString(dirtyLine.trim().split("\\s+")).replaceAll("\\[", "")
-        .replaceAll("]", "").split(",");
+    return Arrays.toString(dirtyLine.trim().split("\\s+"))
+        .replaceAll("\\[", "")
+        .replaceAll("]", "")
+        .split(",");
   }
 
   /**
@@ -128,9 +130,9 @@ public class DayFiveUtils extends InputParser {
    * @return A straight route
    */
   public static List<Vent.Point> generateDiagonalRoute(Vent.Point origin, Vent.Point destination) {
-    //A perfect diagonal increases or decreases in the same amount for all the coordinates
     List<Vent.Point> diagonalRoute = new ArrayList<>();
     int steps;
+    //A valid diagonal increases or decreases in the same amount for all the coordinates
     if (isValidDiagonal(origin, destination)) {
       // Black arrow: (3,4), (8,9)
       if (arrowIsAscendingToTheRight(origin, destination)) {
