@@ -8,6 +8,7 @@ public class Fuel {
    * Calculate both fuel consumptions.
    */
   public static void calculateFuelConsumptions() {
+
     DaySevenUtils.setShipsPosition(false);
     DaySevenUtils.calculateMedian();
     System.out.println(
