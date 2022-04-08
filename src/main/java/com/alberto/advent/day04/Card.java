@@ -2,7 +2,6 @@ package com.alberto.advent.day04;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -13,7 +13,7 @@ public class Fuel {
     DaySevenUtils.calculateMedian();
     System.out.println(
         "Day seven - Part one fuel consumption is: " + DaySevenUtils.getFuelConsumption());
-    DaySevenUtils.calculateMean();
+    DaySevenUtils.calculateAverage();
     System.out.println(
         "Day seven - Part two fuel consumption is: " + DaySevenUtils.getDoubleFuelConsumption());
   }
