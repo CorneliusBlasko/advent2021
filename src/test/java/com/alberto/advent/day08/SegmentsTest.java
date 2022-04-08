@@ -8,9 +8,15 @@ import org.junit.jupiter.api.Test;
 public class SegmentsTest {
 
   @Test
-  @DisplayName("Calculate fuel consumption using test data")
+  @DisplayName("Calculate unique output signals")
   public void test_00() {
     Assertions.assertEquals(456, DayEightUtils.processOutput(false));
+  }
+
+  @Test
+  @DisplayName("Calculate unique output signals")
+  public void test_10() {
+    Segments.calculateSegments();
   }
 
 }
