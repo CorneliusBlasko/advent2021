@@ -12,8 +12,8 @@ public class HydrothermalTest {
   @Test
   @DisplayName("Test map and vents creation")
   public void test_00() {
-    DayFiveUtils.createVents(true, true);
-    DayFiveUtils.createMap(true);
+    Assertions.assertEquals(10, DayFiveUtils.createVents(true, true).size());
+    Assertions.assertEquals(10, DayFiveUtils.createMap(true).length);
   }
 
   @Test
